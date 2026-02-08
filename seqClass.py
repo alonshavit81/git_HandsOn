@@ -38,17 +38,25 @@ args.seq = args.seq.upper()
 # First check that the sequence contains only A/C/G/T/U.
 # if it contains other characters (e.g., N, X, numbers), it is invalid.
 if re.search(r"^[ACGTU]+$", args.seq):
+    has_t = "T" in args.seq
+    has_u = "U" in args.seq
 
-    # If it contains T, that indicates DNA.
-    # If it contains U, that indicates RNA.
-    # If it contains neither T nor U, it could be DNA or RNA.
-    if re.search("T", args.seq):
+ # A sequence containing both T and U is inconsistent.
+    if has_t and has_u:
+        print("The sequence is not DNA or RNA")
+
+    # DNA contains T and no U
+    elif has_t:
         print("The sequence is DNA")
-    elif re.search("U", args.seq):
+
+     # RNA contains U and no T       
+    elif has_u:
         print("The sequence is RNA")
+
+    # Only A/C/G: could be DNA or RNA
     else:
         print("The sequence can be DNA or RNA")
-
+        
 else:
     print("The sequence is not DNA nor RNA")
 
